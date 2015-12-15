@@ -34,6 +34,8 @@ RSpec.configure do |c|
       end
       # Required for manifest to make mod_pagespeed repository available
       if fact('osfamily') == 'Debian'
+        # Make sure snake-oil certs are installed.
+        shell :c => 'apt-get install -y ssl-cert', :n => opts[:node]
         on host, puppet('module','install','puppetlabs-apt', '--version 1.8.0', '--force'), { :acceptable_exit_codes => [0,1] }
       end
       on host, puppet('module','install','puppetlabs-stdlib'), { :acceptable_exit_codes => [0,1] }
